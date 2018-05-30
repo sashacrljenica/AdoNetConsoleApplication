@@ -8,11 +8,11 @@ namespace SasaCrljenica_ConsoleApplication.Model
 {
     class Mark
     {
-        private string evaluation;
+        private int evaluation;
         private Student student;
         private Subject subject;
 
-        public string Evaluation
+        public int Evaluation
         {
             get
             {
