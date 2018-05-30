@@ -10,11 +10,11 @@ namespace AdoNetConsoleApplication
 {
     class Program
     {
-        private static string opcija;
+        private static string option;
 
         static void Main(string[] args)
         {
-            #region ConnectionString
+            #region Connection String
 
             string connString = SasaCrljenica_ConsoleApplication.Properties.Settings.Default.TriTabeleConnectionString;
             SqlConnection sqlConn = new SqlConnection(connString);
@@ -39,15 +39,15 @@ namespace AdoNetConsoleApplication
                 Console.WriteLine("0 - Exit from application");
                 Console.WriteLine("-------------------------------------------------------------------");
 
-                opcija = Console.ReadLine();
+                option = Console.ReadLine();
 
                 Student student = new Student();
                 Subject subject = new Subject();
                 Mark mark = new Mark();
 
-                switch (opcija)
+                switch (option)
                 {
-                    #region 1 list of Student
+                    #region 1 list of Students
                     case "1":
                         try
                         {
@@ -83,7 +83,7 @@ namespace AdoNetConsoleApplication
                         break;
                     #endregion
 
-                    #region 2 list of Subject
+                    #region 2 list of Subjects
                     case "2":
                         try
                         {
@@ -333,7 +333,7 @@ namespace AdoNetConsoleApplication
                 }
 
 
-            } while (opcija != "0");
+            } while (option != "0");
 
             //Console.ReadLine();
         }
