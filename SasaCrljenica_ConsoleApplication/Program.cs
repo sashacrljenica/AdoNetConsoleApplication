@@ -24,19 +24,19 @@ namespace AdoNetConsoleApplication
             do
             {
                 Console.WriteLine("-------------------------------------------------------------------");
-                Console.WriteLine("-----------------Odaberite opciju----------------------------------");
+                Console.WriteLine("-----------------Select an option----------------------------------");
                 Console.WriteLine("-------------------------------------------------------------------");
-                Console.WriteLine("1 - Ucitaj podatke o studentima");
-                Console.WriteLine("2 - Ucitaj podatke o predmetima");
-                Console.WriteLine("3 - Ucitaj podatke koje ocene ima pojedini student");
-                Console.WriteLine("4 - Dodaj ocenu iz odredjenog predmeta, za pojedinog studenta");
-                Console.WriteLine("5 - Dodaj novog studenta");
-                Console.WriteLine("6 - Dodaj novi predmet");
-                Console.WriteLine("7 - Koriguj podatke o studentu");
-                Console.WriteLine("8 - Koriguj podatke o predmetu");
-                Console.WriteLine("9 - Obrisi studenta");
-                Console.WriteLine("10 - Obrisi predmet");
-                Console.WriteLine("0 - Izadji iz programa");
+                Console.WriteLine("1 - Load student information");
+                Console.WriteLine("2 - Load subject data");
+                Console.WriteLine("3 - Load the data that the ratings have to a particular student");
+                Console.WriteLine("4 - Add a grade from a particular subject to a particular student");
+                Console.WriteLine("5 - Add a new student");
+                Console.WriteLine("6 - Add new subject");
+                Console.WriteLine("7 - Update student information");
+                Console.WriteLine("8 - Update subject information");
+                Console.WriteLine("9 - Delete student");
+                Console.WriteLine("10 - Delete subject");
+                Console.WriteLine("0 - Exit from application");
                 Console.WriteLine("-------------------------------------------------------------------");
 
                 opcija = Console.ReadLine();
@@ -50,9 +50,9 @@ namespace AdoNetConsoleApplication
                     case "3": break;
                     case "4": break;
                     case "5":
-                        Console.WriteLine("Unesite ime studenta:");
+                        Console.WriteLine("Enter the name of the student:");
                         student.Name = Console.ReadLine();
-                        Console.WriteLine("Unesite prezime studenta");
+                        Console.WriteLine("Enter the student's last name:");
                         student.Surname = Console.ReadLine();
 
                         string query = string.Format("Insert into tblStudent Values('{0}','{1}');", student.Name, student.Surname);
@@ -62,7 +62,7 @@ namespace AdoNetConsoleApplication
                         {
                             sqlConn.Open();
                             sqlCommand.ExecuteNonQuery();
-                            Console.WriteLine("Student je uspesno dodat!");
+                            Console.WriteLine("The student has successfully added!");
                         }
                         catch (Exception ex)
                         {
@@ -82,7 +82,7 @@ namespace AdoNetConsoleApplication
                     case "0": break;
 
                     default:
-                        Console.WriteLine("Pogresna opcija!");
+                        Console.WriteLine("Wrong option!");
                         break;
                 }
 
