@@ -8,6 +8,7 @@ namespace SasaCrljenica_ConsoleApplication.Model
 {
     class Student
     {
+        private int studentID;
         private string name;
         private string surname;
 
@@ -34,6 +35,19 @@ namespace SasaCrljenica_ConsoleApplication.Model
             set
             {
                 surname = value;
+            }
+        }
+
+        public int StudentID
+        {
+            get
+            {
+                return studentID;
+            }
+
+            set
+            {
+                studentID = value;
             }
         }
     }

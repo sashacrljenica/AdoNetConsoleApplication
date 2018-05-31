@@ -8,6 +8,7 @@ namespace SasaCrljenica_ConsoleApplication.Model
 {
     class Mark
     {
+        private int markID;
         private int evaluation;
         private Student student;
         private Subject subject;
@@ -48,6 +49,19 @@ namespace SasaCrljenica_ConsoleApplication.Model
             set
             {
                 subject = value;
+            }
+        }
+
+        public int MarkID
+        {
+            get
+            {
+                return markID;
+            }
+
+            set
+            {
+                markID = value;
             }
         }
     }

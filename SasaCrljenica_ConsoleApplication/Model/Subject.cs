@@ -8,6 +8,7 @@ namespace SasaCrljenica_ConsoleApplication.Model
 {
     class Subject
     {
+        private int subjectID;
         private string nameOfSubject;
 
         public string NameOfSubject
@@ -20,6 +21,19 @@ namespace SasaCrljenica_ConsoleApplication.Model
             set
             {
                 nameOfSubject = value;
+            }
+        }
+
+        public int SubjectID
+        {
+            get
+            {
+                return subjectID;
+            }
+
+            set
+            {
+                subjectID = value;
             }
         }
     }
