@@ -27,7 +27,7 @@ namespace AdoNetConsoleApplication
                 Console.WriteLine("-----------------Select an option----------------------------------");
                 Console.WriteLine("-------------------------------------------------------------------");
                 Console.WriteLine("1 - Load student information");
-                Console.WriteLine("2 - Load subject data");
+                Console.WriteLine("2 - Load name of subject");
                 Console.WriteLine("3 - Load the data that the ratings have to a particular student");
                 Console.WriteLine("4 - Add a mark grade from a particular student and subject");
                 Console.WriteLine("5 - Add a new student");
@@ -192,8 +192,6 @@ namespace AdoNetConsoleApplication
 
                             SqlCommand sqlCommand1 = new SqlCommand(query1, sqlConn);
                             SqlDataReader sqlReader1 = sqlCommand1.ExecuteReader();
-                            //sqlCommand1.ExecuteNonQuery();
-
 
                             if (!sqlReader1.HasRows)
                             {
@@ -215,7 +213,6 @@ namespace AdoNetConsoleApplication
 
                             SqlCommand sqlCommand2 = new SqlCommand(query2, sqlConn);
                             SqlDataReader sqlReader2 = sqlCommand2.ExecuteReader();
-                            //sqlCommand2.ExecuteNonQuery();
 
                             if (!sqlReader2.HasRows)
                             {
@@ -321,7 +318,71 @@ namespace AdoNetConsoleApplication
                         break;
                     #endregion
 
-                    case "7": break;
+                    case "7":
+
+                        int studentID02 = 0;
+                        try
+                        {
+
+                            Console.WriteLine("Update student information");
+                            Console.WriteLine("Please enter old student name");
+                            string oldName = Console.ReadLine();
+                            Console.WriteLine("Please enter old student surname:");
+                            string oldSurname = Console.ReadLine();
+
+                            string query1 = string.Format(" select * from tblStudent where StudentName='{0}' and SurName='{1}';", oldName, oldSurname);
+
+                            sqlConn.Open();
+
+                            SqlCommand sqlCommand = new SqlCommand(query1, sqlConn);
+                            SqlDataReader sqlReader1 = sqlCommand.ExecuteReader();
+
+                            if (!sqlReader1.HasRows)
+                            {
+                                Console.WriteLine("---------------------------------------------------");
+                                Console.WriteLine("No data for particular student!");
+                            }
+                            else
+                            {
+                                sqlReader1.Close();
+
+                                Console.WriteLine("Please enter new student name:");
+                                string newName = Console.ReadLine();
+                                Console.WriteLine("Please enter new student surname:");
+                                string newSurname = Console.ReadLine();
+
+                                string query2 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", oldName, oldSurname);
+
+                                SqlCommand sqlCommand2 = new SqlCommand(query2, sqlConn);
+                                SqlDataReader sqlReader2 = sqlCommand2.ExecuteReader();
+
+                                while (sqlReader2.Read())
+                                {
+                                    studentID02 = Convert.ToInt32(sqlReader2["StudentID"]);
+                                }
+
+                                sqlReader2.Close();
+
+                                string query3 = string.Format("Update tblStudent set StudentName='{0}', SurName='{1}' where StudentID='{2}';", newName, newSurname, studentID02);
+                                SqlCommand sqlCommand3 = new SqlCommand(query3, sqlConn);
+                                sqlCommand3.ExecuteNonQuery();
+
+                                Console.WriteLine("You are successfully updated student name {0} and surname {1} with {2} and {3}!", oldName, oldSurname, newName, newSurname);
+                            }
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
+                        finally
+                        {
+                            sqlConn.Close();
+                        }
+
+
+                        break;
                     case "8": break;
                     case "9": break;
                     case "10": break;
