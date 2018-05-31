@@ -122,7 +122,7 @@ namespace AdoNetConsoleApplication
                         break;
                     #endregion
 
-                    #region 3 Student name,surname, Subject name, Mark from Student name and surname
+                    #region 3 View Student name,surname, Subject name, Mark from Student name and surname
                     case "3":
 
                         try
@@ -146,6 +146,7 @@ namespace AdoNetConsoleApplication
                             {
                                 Console.WriteLine("---------------------------------------------------");
                                 Console.WriteLine("No data for particular student!");
+                                Console.WriteLine("---------------------------------------------------");
                             }
                             else
                             {
@@ -158,9 +159,7 @@ namespace AdoNetConsoleApplication
                                     Console.WriteLine(num + ": " + sqlReader["StudentName"] + "  " + sqlReader["SurName"] + ":  " + sqlReader["SubjectName"] + " - " + sqlReader["Mark"]);
                                     num++;
                                 }
-                                Console.WriteLine("-------------------------------------------------------");
                             }
-
                         }
                         catch (Exception ex)
                         {
@@ -259,24 +258,42 @@ namespace AdoNetConsoleApplication
                         break;
                     #endregion
 
-                    #region 5 add Student
+                    #region 5 Add Student
                     case "5":
 
+                        Console.WriteLine("Enter the name of the student:");
+                        student.Name = Console.ReadLine();
+                        Console.WriteLine("Enter the student's last name:");
+                        student.Surname = Console.ReadLine();
                         try
                         {
-                            Console.WriteLine("Enter the name of the student:");
-                            student.Name = Console.ReadLine();
-                            Console.WriteLine("Enter the student's last name:");
-                            student.Surname = Console.ReadLine();
-
-                            string query = string.Format("Insert into tblStudent Values('{0}','{1}');", student.Name, student.Surname);
-
                             sqlConn.Open();
 
-                            SqlCommand sqlCommand = new SqlCommand(query, sqlConn);
-                            sqlCommand.ExecuteNonQuery();
+                            string query501 = string.Format("select * from tblStudent where StudentName='{0}' and SurName='{1}';", student.Name, student.Surname);
 
-                            Console.WriteLine("The student has successfully added!");
+                            SqlCommand sqlCommand501 = new SqlCommand(query501, sqlConn);
+                            SqlDataReader sqlReader501 = sqlCommand501.ExecuteReader();
+
+                            if (!sqlReader501.HasRows)
+                            {
+
+                                string query = string.Format("Insert into tblStudent Values('{0}','{1}');", student.Name, student.Surname);
+
+                                SqlCommand sqlCommand = new SqlCommand(query, sqlConn);
+                                sqlCommand.ExecuteNonQuery();
+
+                                Console.WriteLine("The student has successfully added!");
+                                sqlReader501.Close();
+                            }
+                            else
+                            {
+                                Console.WriteLine("---------------------------------------------------");
+                                Console.WriteLine("particular student {0} {1} already exist!", student.Name, student.Surname);
+                                Console.WriteLine("Please repeat procedure!");
+                                Console.WriteLine("---------------------------------------------------");
+                                break;
+                            }
+
                         }
                         catch (Exception ex)
                         {
@@ -289,21 +306,42 @@ namespace AdoNetConsoleApplication
                         break;
                     #endregion
 
-                    #region 6 add Subject
+                    #region 6 Add Subject
                     case "6":
+
+                        Console.WriteLine("Enter the name of the subject:");
+                        subject.NameOfSubject = Console.ReadLine();
 
                         try
                         {
-                            Console.WriteLine("Enter the name of the subject:");
-                            subject.NameOfSubject = Console.ReadLine();
-
-                            string query = string.Format("Insert into tblSubject Values('{0}');", subject.NameOfSubject);
                             sqlConn.Open();
 
-                            SqlCommand sqlCommand = new SqlCommand(query, sqlConn);
-                            sqlCommand.ExecuteNonQuery();
+                            string query61 = string.Format("select * from tblSubject where SubjectName='{0}';", subject.NameOfSubject);
 
-                            Console.WriteLine("The subject has successfully added!");
+                            SqlCommand sqlCommand61 = new SqlCommand(query61, sqlConn);
+                            SqlDataReader sqlReader61 = sqlCommand61.ExecuteReader();
+
+                            if (!sqlReader61.HasRows)
+                            {
+
+                                string query62 = string.Format("Insert into tblSubject Values('{0}');", subject.NameOfSubject);
+                                sqlConn.Open();
+
+                                SqlCommand sqlCommand62 = new SqlCommand(query62, sqlConn);
+                                sqlCommand62.ExecuteNonQuery();
+
+                                Console.WriteLine("The subject has successfully added!");
+                                sqlReader61.Close();
+                            }
+                            else
+                            {
+                                Console.WriteLine("---------------------------------------------------");
+                                Console.WriteLine("particular subject {0} already exist!", subject.NameOfSubject);
+                                Console.WriteLine("Please repeat procedure!");
+                                Console.WriteLine("---------------------------------------------------");
+                                break;
+                            }
+
                         }
                         catch (Exception ex)
                         {
