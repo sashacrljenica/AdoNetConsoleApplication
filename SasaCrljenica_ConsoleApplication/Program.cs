@@ -204,6 +204,7 @@ namespace AdoNetConsoleApplication
                             {
                                 Console.WriteLine("---------------------------------------------------");
                                 Console.WriteLine("No data for particular student!");
+                                Console.WriteLine("---------------------------------------------------");
                                 break;
                             }
                             else
@@ -243,7 +244,7 @@ namespace AdoNetConsoleApplication
                             Console.WriteLine("Enter the mark number of subject for particular student:");
                             mark.Evaluation = Convert.ToInt32(Console.ReadLine());
 
-                            if (mark.Evaluation > 10 && mark.Evaluation < 6)
+                            if (mark.Evaluation > 10 || mark.Evaluation < 6)
                             {
                                 Console.WriteLine("Mark number must be beetwen 6 and 10! Please repeat!");
                             }
@@ -285,13 +286,14 @@ namespace AdoNetConsoleApplication
 
                             if (!sqlReader51.HasRows)
                             {
+                                sqlReader51.Close();
+
                                 string query52 = string.Format("Insert into tblStudent Values('{0}','{1}');", student.Name, student.Surname);
 
                                 SqlCommand sqlCommand52 = new SqlCommand(query52, sqlConn);
                                 sqlCommand52.ExecuteNonQuery();
 
                                 Console.WriteLine("The student has successfully added!");
-                                sqlReader51.Close();
                             }
                             else
                             {
