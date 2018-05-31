@@ -11,6 +11,8 @@ namespace AdoNetConsoleApplication
     class Program
     {
         private static string option;
+        private static int studentID = 0;
+        private static int subjectID = 0;
 
         static void Main(string[] args)
         {
@@ -175,9 +177,6 @@ namespace AdoNetConsoleApplication
                     case "4":
                         try
                         {
-                            int studentID = 0;
-                            int subjectID = 0;
-
                             Console.WriteLine("Enter the name of the student:");
                             student.Name = Console.ReadLine();
                             Console.WriteLine("Enter the student's last name:");
@@ -318,9 +317,9 @@ namespace AdoNetConsoleApplication
                         break;
                     #endregion
 
+                    #region 7 Update student information
                     case "7":
 
-                        int studentID02 = 0;
                         try
                         {
 
@@ -358,19 +357,77 @@ namespace AdoNetConsoleApplication
 
                                 while (sqlReader2.Read())
                                 {
-                                    studentID02 = Convert.ToInt32(sqlReader2["StudentID"]);
+                                    studentID = Convert.ToInt32(sqlReader2["StudentID"]);
                                 }
 
                                 sqlReader2.Close();
 
-                                string query3 = string.Format("Update tblStudent set StudentName='{0}', SurName='{1}' where StudentID='{2}';", newName, newSurname, studentID02);
+                                string query3 = string.Format("Update tblStudent set StudentName='{0}', SurName='{1}' where StudentID='{2}';", newName, newSurname, studentID);
                                 SqlCommand sqlCommand3 = new SqlCommand(query3, sqlConn);
                                 sqlCommand3.ExecuteNonQuery();
 
+                                Console.WriteLine();
                                 Console.WriteLine("You are successfully updated student name {0} and surname {1} with {2} and {3}!", oldName, oldSurname, newName, newSurname);
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
+                        finally
+                        {
+                            sqlConn.Close();
+                        }
+                        break;
+                    #endregion
 
+                    #region 8 update Subject information
+                    case "8":
+                        try
+                        {
 
+                            Console.WriteLine("Update subject information");
+                            Console.WriteLine("Please enter old subject name");
+                            string oldName = Console.ReadLine();
+
+                            string query1 = string.Format(" select * from tblSubject where SubjectName='{0}';", oldName);
+
+                            sqlConn.Open();
+
+                            SqlCommand sqlCommand = new SqlCommand(query1, sqlConn);
+                            SqlDataReader sqlReader1 = sqlCommand.ExecuteReader();
+
+                            if (!sqlReader1.HasRows)
+                            {
+                                Console.WriteLine("---------------------------------------------------");
+                                Console.WriteLine("No data for particular subject!");
+                            }
+                            else
+                            {
+                                sqlReader1.Close();
+
+                                Console.WriteLine("Please enter new subject name:");
+                                string newName = Console.ReadLine();
+
+                                string query2 = string.Format("select tblSubject.SubjectID from tblSubject where SubjectName='{0}';", oldName);
+
+                                SqlCommand sqlCommand2 = new SqlCommand(query2, sqlConn);
+                                SqlDataReader sqlReader2 = sqlCommand2.ExecuteReader();
+
+                                while (sqlReader2.Read())
+                                {
+                                    subjectID = Convert.ToInt32(sqlReader2["SubjectID"]);
+                                }
+
+                                sqlReader2.Close();
+
+                                string query3 = string.Format("Update tblSubject set SubjectName='{0}' where SubjectID='{1}';", newName, subjectID);
+                                SqlCommand sqlCommand3 = new SqlCommand(query3, sqlConn);
+                                sqlCommand3.ExecuteNonQuery();
+
+                                Console.WriteLine();
+                                Console.WriteLine("You are successfully updated subject name {0} with {1}!", oldName, newName);
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -381,9 +438,8 @@ namespace AdoNetConsoleApplication
                             sqlConn.Close();
                         }
 
-
                         break;
-                    case "8": break;
+                    #endregion
                     case "9": break;
                     case "10": break;
                     case "0": break;
