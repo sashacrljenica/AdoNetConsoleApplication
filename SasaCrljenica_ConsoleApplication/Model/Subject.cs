@@ -8,35 +8,6 @@ namespace SasaCrljenica_ConsoleApplication.Model
 {
     class Subject
     {
-        //private int subjectID;
-        //private string nameOfSubject;
-
-        //public string NameOfSubject
-        //{
-        //    get
-        //    {
-        //        return nameOfSubject;
-        //    }
-
-        //    set
-        //    {
-        //        nameOfSubject = value;
-        //    }
-        //}
-
-        //public int SubjectID
-        //{
-        //    get
-        //    {
-        //        return subjectID;
-        //    }
-
-        //    set
-        //    {
-        //        subjectID = value;
-        //    }
-        //}
-
         public int SubjectID { get; set; }
         public string NameOfSubject { get; set; }
     }
