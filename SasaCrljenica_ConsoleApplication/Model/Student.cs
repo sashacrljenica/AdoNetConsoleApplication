@@ -8,47 +8,52 @@ namespace SasaCrljenica_ConsoleApplication.Model
 {
     class Student
     {
-        private int studentID;
-        private string name;
-        private string surname;
+        //private int studentID;
+        //private string name;
+        //private string surname;
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
+        //public string Name
+        //{
+        //    get
+        //    {
+        //        return name;
+        //    }
 
-            set
-            {
-                name = value;
-            }
-        }
+        //    set
+        //    {
+        //        name = value;
+        //    }
+        //}
 
-        public string Surname
-        {
-            get
-            {
-                return surname;
-            }
+        //public string Surname
+        //{
+        //    get
+        //    {
+        //        return surname;
+        //    }
 
-            set
-            {
-                surname = value;
-            }
-        }
+        //    set
+        //    {
+        //        surname = value;
+        //    }
+        //}
 
-        public int StudentID
-        {
-            get
-            {
-                return studentID;
-            }
+        //public int StudentID
+        //{
+        //    get
+        //    {
+        //        return studentID;
+        //    }
 
-            set
-            {
-                studentID = value;
-            }
-        }
+        //    set
+        //    {
+        //        studentID = value;
+        //    }
+        //}
+
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public int StudentID { get; set; }
+
     }
 }

@@ -55,7 +55,7 @@ namespace AdoNetConsoleApplication
 
                             int num = 1;
 
-                            string query11 = string.Format(" select * from tblStudent ");
+                            string query11 = string.Format("select * from tblStudent;");
 
                             SqlCommand sqlCommand11 = new SqlCommand(query11, sqlConn);
                             SqlDataReader sqlReader11 = sqlCommand11.ExecuteReader();
@@ -98,7 +98,7 @@ namespace AdoNetConsoleApplication
 
                             int num = 1;
 
-                            string query21 = string.Format(" select * from tblSubject ");
+                            string query21 = string.Format("select * from tblSubject;");
 
                             SqlCommand sqlCommand21 = new SqlCommand(query21, sqlConn);
                             SqlDataReader sqlReader21 = sqlCommand21.ExecuteReader();
@@ -596,7 +596,6 @@ namespace AdoNetConsoleApplication
                         Console.WriteLine("Wrong option!");
                         break;
                 }
-
 
             } while (option != "0");
 

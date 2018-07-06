@@ -8,61 +8,65 @@ namespace SasaCrljenica_ConsoleApplication.Model
 {
     class Mark
     {
-        private int markID;
-        private int evaluation;
-        private Student student;
-        private Subject subject;
+        //private int markID;
+        //private int evaluation;
+        //private Student student;
+        //private Subject subject;
 
-        public int Evaluation
-        {
-            get
-            {
-                return evaluation;
-            }
+        //public int Evaluation
+        //{
+        //    get
+        //    {
+        //        return evaluation;
+        //    }
 
-            set
-            {
-                evaluation = value;
-            }
-        }
+        //    set
+        //    {
+        //        evaluation = value;
+        //    }
+        //}
 
-        internal Student Student
-        {
-            get
-            {
-                return student;
-            }
+        //internal Student Student
+        //{
+        //    get
+        //    {
+        //        return student;
+        //    }
 
-            set
-            {
-                student = value;
-            }
-        }
+        //    set
+        //    {
+        //        student = value;
+        //    }
+        //}
 
-        internal Subject Subject
-        {
-            get
-            {
-                return subject;
-            }
+        //internal Subject Subject
+        //{
+        //    get
+        //    {
+        //        return subject;
+        //    }
 
-            set
-            {
-                subject = value;
-            }
-        }
+        //    set
+        //    {
+        //        subject = value;
+        //    }
+        //}
 
-        public int MarkID
-        {
-            get
-            {
-                return markID;
-            }
+        //public int MarkID
+        //{
+        //    get
+        //    {
+        //        return markID;
+        //    }
 
-            set
-            {
-                markID = value;
-            }
-        }
+        //    set
+        //    {
+        //        markID = value;
+        //    }
+        //}
+
+        public int MarkID { get; set; }
+        public int Evaluation { get; set; }
+        
     }
 }
