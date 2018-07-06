@@ -64,9 +64,9 @@ namespace SasaCrljenica_ConsoleApplication.Model
         //        markID = value;
         //    }
         //}
-
-        public int MarkID { get; set; }
+        
         public int Evaluation { get; set; }
         
+
     }
 }

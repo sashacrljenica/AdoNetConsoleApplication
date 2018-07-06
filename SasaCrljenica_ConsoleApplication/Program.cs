@@ -11,7 +11,7 @@ namespace AdoNetConsoleApplication
     class Program
     {
         private static string option;
-    
+
         static void Main(string[] args)
         {
             #region Connection String
@@ -26,16 +26,16 @@ namespace AdoNetConsoleApplication
                 Console.WriteLine("-------------------------------------------------------------------");
                 Console.WriteLine("-----------------Select an option----------------------------------");
                 Console.WriteLine("-------------------------------------------------------------------");
-                Console.WriteLine(" 1 - Load student information");
-                Console.WriteLine(" 2 - Load name of subject");
-                Console.WriteLine(" 3 - Load the data of mark that the ratings have to a particular student");
-                Console.WriteLine(" 4 - Add a mark grade from a particular student and subject");
-                Console.WriteLine(" 5 - Add a new student");
-                Console.WriteLine(" 6 - Add new subject");
-                Console.WriteLine(" 7 - Update student information");
-                Console.WriteLine(" 8 - Update subject information");
-                Console.WriteLine(" 9 - Delete student");
-                Console.WriteLine("10 - Delete subject");
+                Console.WriteLine(" 1 - Load Student information");
+                Console.WriteLine(" 2 - Load name of Subject");
+                Console.WriteLine(" 3 - Load the data of Student that have Mark of ratings\n for a particular Subject");
+                Console.WriteLine(" 4 - Add a Mark grade for a particular student and subject");
+                Console.WriteLine(" 5 - Add a new Student");
+                Console.WriteLine(" 6 - Add new Subject");
+                Console.WriteLine(" 7 - Update Student information");
+                Console.WriteLine(" 8 - Update Subject information");
+                Console.WriteLine(" 9 - Delete Student");
+                Console.WriteLine("10 - Delete Subject");
                 Console.WriteLine(" 0 - Exit from application");
                 Console.WriteLine("-------------------------------------------------------------------");
 
@@ -210,7 +210,7 @@ namespace AdoNetConsoleApplication
                             else
                             {
                                 // Call Read before accessing data.
-                                while (sqlReader41.Read())
+                                if (sqlReader41.Read())
                                 {
                                     student.StudentID = Convert.ToInt32(sqlReader41["StudentID"]);
                                 }
@@ -232,7 +232,7 @@ namespace AdoNetConsoleApplication
                             else
                             {
                                 // Call Read before accessing data.
-                                while (sqlReader42.Read())
+                                if (sqlReader42.Read())
                                 {
                                     subject.SubjectID = Convert.ToInt32(sqlReader42["SubjectID"]);
                                 }
@@ -246,7 +246,7 @@ namespace AdoNetConsoleApplication
 
                             if (mark.Evaluation > 10 || mark.Evaluation < 6)
                             {
-                                Console.WriteLine("Mark number must be beetwen 6 and 10! Please repeat!");
+                                Console.WriteLine("Mark number must be beetwen 6 and 10! Please repeat again!");
                             }
                             else
                             {
