@@ -186,7 +186,7 @@ namespace AdoNetConsoleApplication
                     case "4":
                         try
                         {
-                            //tražimo ID studenta preko njegovog imena i prezimena
+                            //We look for StudentID over his name and surname
                             Console.WriteLine("Enter the name of the student:");
                             student.Name = Console.ReadLine();
                             Console.WriteLine("Enter the student's last name:");
@@ -227,7 +227,7 @@ namespace AdoNetConsoleApplication
                             // Call Close when done reading.
                             sqlReader41.Close();
 
-                            //izlistavamo sve subjekte
+                            //We print all Subjects
                             string query21 = string.Format("select * from tblSubject;");
 
                             SqlCommand sqlCommand21 = new SqlCommand(query21, sqlConn);
@@ -252,7 +252,7 @@ namespace AdoNetConsoleApplication
                             {
                                 Console.WriteLine("Empty data for table Subject!");
                             }
-                            //trazimo ID Subjekta preko njegovog imena
+                            //We look for SubjectID over it's name:
                             Console.WriteLine("Enter the name of subject");
                             subject.NameOfSubject = Console.ReadLine();
 
@@ -331,12 +331,13 @@ namespace AdoNetConsoleApplication
                         {
                             sqlConn.Open();
 
-                            //ovaj upit služi da bi proverili da li u bazi već postoji student sa istim imenom i prezimenom
+                            //This query is used to check if a student with the same name and surname already exists in the database:
                             string query51 = string.Format("select * from tblStudent where StudentName='{0}' and SurName='{1}';", student.Name, student.Surname);
 
                             SqlCommand sqlCommand51 = new SqlCommand(query51, sqlConn);
                             SqlDataReader sqlReader51 = sqlCommand51.ExecuteReader();
 
+                            //if it does not exist:
                             if (!sqlReader51.HasRows)
                             {
                                 sqlReader51.Close();
@@ -346,7 +347,9 @@ namespace AdoNetConsoleApplication
                                 SqlCommand sqlCommand52 = new SqlCommand(query52, sqlConn);
                                 sqlCommand52.ExecuteNonQuery();
 
-                                Console.WriteLine("The student has successfully added!");
+                                Console.WriteLine("***********************************");
+                                Console.WriteLine("The student had successfully added!");
+                                Console.WriteLine("***********************************");
                             }
                             else
                             {
