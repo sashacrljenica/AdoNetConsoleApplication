@@ -11,7 +11,7 @@ namespace AdoNetConsoleApplication
     class Program
     {
         private static string option;
-    
+
         static void Main(string[] args)
         {
             #region Connection String
@@ -26,16 +26,16 @@ namespace AdoNetConsoleApplication
                 Console.WriteLine("-------------------------------------------------------------------");
                 Console.WriteLine("-----------------Select an option----------------------------------");
                 Console.WriteLine("-------------------------------------------------------------------");
-                Console.WriteLine(" 1 - Load student information");
-                Console.WriteLine(" 2 - Load name of subject");
-                Console.WriteLine(" 3 - Load the data that the ratings have to a particular student");
-                Console.WriteLine(" 4 - Add a mark grade from a particular student and subject");
-                Console.WriteLine(" 5 - Add a new student");
-                Console.WriteLine(" 6 - Add new subject");
-                Console.WriteLine(" 7 - Update student information");
-                Console.WriteLine(" 8 - Update subject information");
-                Console.WriteLine(" 9 - Delete student");
-                Console.WriteLine("10 - Delete subject");
+                Console.WriteLine(" 1 - Load Student information");
+                Console.WriteLine(" 2 - Load name of Subject");
+                Console.WriteLine(" 3 - Load the data of Student that have Mark of ratings\n for a particular Subject");
+                Console.WriteLine(" 4 - Add a Mark grade for a particular student and subject");
+                Console.WriteLine(" 5 - Add a new Student");
+                Console.WriteLine(" 6 - Add new Subject");
+                Console.WriteLine(" 7 - Update Student information");
+                Console.WriteLine(" 8 - Update Subject information");
+                Console.WriteLine(" 9 - Delete Student");
+                Console.WriteLine("10 - Delete Subject");
                 Console.WriteLine(" 0 - Exit from application");
                 Console.WriteLine("-------------------------------------------------------------------");
 
@@ -55,7 +55,7 @@ namespace AdoNetConsoleApplication
 
                             int num = 1;
 
-                            string query11 = string.Format(" select * from tblStudent ");
+                            string query11 = string.Format("select * from tblStudent;");
 
                             SqlCommand sqlCommand11 = new SqlCommand(query11, sqlConn);
                             SqlDataReader sqlReader11 = sqlCommand11.ExecuteReader();
@@ -68,6 +68,7 @@ namespace AdoNetConsoleApplication
                                 while (sqlReader11.Read())
                                 {
                                     Console.WriteLine(num + ": " + sqlReader11["StudentName"] + " " + sqlReader11["SurName"]);
+                                    //Console.WriteLine(num + ": " + sqlReader11[1] + " " + sqlReader11[2]);
                                     num++;
                                 }
                                 Console.WriteLine("-------------------------------------------------------");
@@ -98,7 +99,7 @@ namespace AdoNetConsoleApplication
 
                             int num = 1;
 
-                            string query21 = string.Format(" select * from tblSubject ");
+                            string query21 = string.Format("select * from tblSubject;");
 
                             SqlCommand sqlCommand21 = new SqlCommand(query21, sqlConn);
                             SqlDataReader sqlReader21 = sqlCommand21.ExecuteReader();
@@ -183,79 +184,130 @@ namespace AdoNetConsoleApplication
 
                     #region 4 Add mark grade from particular student and subject
                     case "4":
-                        Console.WriteLine("Enter the name of the student:");
-                        student.Name = Console.ReadLine();
-                        Console.WriteLine("Enter the student's last name:");
-                        student.Surname = Console.ReadLine();
-                        Console.WriteLine("Enter the name of subject");
-                        subject.NameOfSubject = Console.ReadLine();
-
                         try
                         {
+                            //tražimo ID studenta preko njegovog imena i prezimena
+                            Console.WriteLine("Enter the name of the student:");
+                            student.Name = Console.ReadLine();
+                            Console.WriteLine("Enter the student's last name:");
+                            student.Surname = Console.ReadLine();
+
                             string query41 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", student.Name, student.Surname);
-                            string query42 = string.Format("select tblSubject.SubjectID from tblSubject where SubjectName='{0}';", subject.NameOfSubject);
 
                             sqlConn.Open();
 
                             SqlCommand sqlCommand41 = new SqlCommand(query41, sqlConn);
                             SqlDataReader sqlReader41 = sqlCommand41.ExecuteReader();
 
-                            if (!sqlReader41.HasRows)
+                            while (!sqlReader41.HasRows)
                             {
                                 Console.WriteLine("---------------------------------------------------");
                                 Console.WriteLine("No data for particular student!");
+                                Console.WriteLine("Please repeat!");
                                 Console.WriteLine("---------------------------------------------------");
-                                break;
+                                sqlReader41.Close();
+
+                                Console.WriteLine("Enter the name of the student:");
+                                student.Name = Console.ReadLine();
+                                Console.WriteLine("Enter the student's last name:");
+                                student.Surname = Console.ReadLine();
+
+                                query41 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", student.Name, student.Surname);
+
+                                sqlCommand41 = new SqlCommand(query41, sqlConn);
+                                sqlReader41 = sqlCommand41.ExecuteReader();
+                            }
+
+                            // Call Read before accessing data.
+                            if (sqlReader41.Read())
+                            {
+                                student.StudentID = Convert.ToInt32(sqlReader41["StudentID"]);
+                            }
+
+                            // Call Close when done reading.
+                            sqlReader41.Close();
+
+                            //izlistavamo sve subjekte
+                            string query21 = string.Format("select * from tblSubject;");
+
+                            SqlCommand sqlCommand21 = new SqlCommand(query21, sqlConn);
+                            SqlDataReader sqlReader21 = sqlCommand21.ExecuteReader();
+
+                            int num = 1;
+
+                            if (sqlReader21.HasRows)
+                            {
+                                Console.WriteLine("-------------------------------------------------------");
+                                Console.WriteLine("Name of subjects:");
+                                Console.WriteLine("-------------------------------------------------------");
+                                while (sqlReader21.Read())
+                                {
+                                    Console.Write(num + ":" + sqlReader21["SubjectName"] + " ");
+                                    num++;
+                                }
+                                Console.WriteLine("------------------------------------------------------");
+                                sqlReader21.Close();
                             }
                             else
                             {
-                                // Call Read before accessing data.
-                                while (sqlReader41.Read())
-                                {
-                                    student.StudentID = Convert.ToInt32(sqlReader41["StudentID"]);
-                                }
-
-                                // Call Close when done reading.
-                                sqlReader41.Close();
+                                Console.WriteLine("Empty data for table Subject!");
                             }
+                            //trazimo ID Subjekta preko njegovog imena
+                            Console.WriteLine("Enter the name of subject");
+                            subject.NameOfSubject = Console.ReadLine();
+
+                            string query42 = string.Format("select tblSubject.SubjectID from tblSubject where SubjectName='{0}';", subject.NameOfSubject);
 
                             SqlCommand sqlCommand42 = new SqlCommand(query42, sqlConn);
                             SqlDataReader sqlReader42 = sqlCommand42.ExecuteReader();
 
-                            if (!sqlReader42.HasRows)
+                            while (!sqlReader42.HasRows)
                             {
                                 Console.WriteLine("---------------------------------------------------");
-                                Console.WriteLine("No data for particular subject!");
+                                Console.WriteLine("Error! No data for particular subject!");
+                                Console.WriteLine("Please repeat!");
                                 Console.WriteLine("---------------------------------------------------");
-                                break;
-                            }
-                            else
-                            {
-                                // Call Read before accessing data.
-                                while (sqlReader42.Read())
-                                {
-                                    subject.SubjectID = Convert.ToInt32(sqlReader42["SubjectID"]);
-                                }
-
-                                // Call Close when done reading.
                                 sqlReader42.Close();
+
+                                Console.WriteLine("Enter the name of subject");
+                                subject.NameOfSubject = Console.ReadLine();
+
+                                query42 = string.Format("select tblSubject.SubjectID from tblSubject where SubjectName='{0}';", subject.NameOfSubject);
+
+                                sqlCommand42 = new SqlCommand(query42, sqlConn);
+                                sqlReader42 = sqlCommand42.ExecuteReader();
+
                             }
 
-                            Console.WriteLine("Enter the mark number of subject for particular student:");
+                            // Call Read before accessing data.
+                            if (sqlReader42.Read())
+                            {
+                                subject.SubjectID = Convert.ToInt32(sqlReader42["SubjectID"]);
+                            }
+
+                            // Call Close when done reading.
+                            sqlReader42.Close();
+
+                            Console.WriteLine("Enter the mark number of subject for particular student(6-10):");
                             mark.Evaluation = Convert.ToInt32(Console.ReadLine());
 
-                            if (mark.Evaluation > 10 || mark.Evaluation < 6)
+                            while (mark.Evaluation > 10 || mark.Evaluation < 6)
                             {
-                                Console.WriteLine("Mark number must be beetwen 6 and 10! Please repeat!");
+                                Console.WriteLine("------------------------------------------------------------");
+                                Console.WriteLine("Mark number must be beetwen 6 and 10! \nPlease repeat again!");
+                                Console.WriteLine("------------------------------------------------------------");
+                                Console.WriteLine("Enter the mark number of subject for particular student(6-10):");
+                                mark.Evaluation = Convert.ToInt32(Console.ReadLine());
                             }
-                            else
-                            {
-                                string query43 = string.Format("Insert into tblMark Values('{0}','{1}','{2}');", mark.Evaluation, student.StudentID, subject.SubjectID);
-                                SqlCommand sqlCommand43 = new SqlCommand(query43, sqlConn);
-                                sqlCommand43.ExecuteNonQuery();
 
-                                Console.WriteLine("The mark grade of student has successfully added!");
-                            }
+                            string query43 = string.Format("Insert into tblMark Values('{0}','{1}','{2}');", mark.Evaluation, student.StudentID, subject.SubjectID);
+                            SqlCommand sqlCommand43 = new SqlCommand(query43, sqlConn);
+                            sqlCommand43.ExecuteNonQuery();
+
+                            Console.WriteLine("*************************************************");
+                            Console.WriteLine("The mark grade of student has successfully added!");
+                            Console.WriteLine("*************************************************");
+
                         }
                         catch (Exception ex)
                         {
@@ -596,7 +648,6 @@ namespace AdoNetConsoleApplication
                         Console.WriteLine("Wrong option!");
                         break;
                 }
-
 
             } while (option != "0");
 
