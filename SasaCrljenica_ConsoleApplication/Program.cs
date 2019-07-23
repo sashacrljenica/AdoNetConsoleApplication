@@ -135,15 +135,14 @@ namespace AdoNetConsoleApplication
 
                     #region 3 View Student name,surname,subject name and Mark from Student name and surname
                     case "3":
-
-                        Console.WriteLine("Please enter the name for search:");
-                        string nameForSearch = Console.ReadLine();
-
-                        Console.WriteLine("Please enter the surname for search:");
-                        string surnameForSearch = Console.ReadLine();
-
                         try
                         {
+                            Console.WriteLine("Please enter the name for search:");
+                            string nameForSearch = Console.ReadLine();
+
+                            Console.WriteLine("Please enter the surname for search:");
+                            string surnameForSearch = Console.ReadLine();
+
                             sqlConn.Open();
 
                             int num = 1;
@@ -169,6 +168,7 @@ namespace AdoNetConsoleApplication
                                     Console.WriteLine(num + ": " + sqlReader31["StudentName"] + "  " + sqlReader31["SurName"] + ":  " + sqlReader31["SubjectName"] + " - " + sqlReader31["Mark"]);
                                     num++;
                                 }
+                                sqlReader31.Close();
                             }
                         }
                         catch (Exception ex)
@@ -322,13 +322,13 @@ namespace AdoNetConsoleApplication
 
                     #region 5 Add Student
                     case "5":
-                        Console.WriteLine("Enter the name of the student:");
-                        student.Name = Console.ReadLine();
-                        Console.WriteLine("Enter the student's last name:");
-                        student.Surname = Console.ReadLine();
-
                         try
                         {
+                            Console.WriteLine("Enter the name of the student:");
+                            student.Name = Console.ReadLine();
+                            Console.WriteLine("Enter the student's last name:");
+                            student.Surname = Console.ReadLine();
+
                             sqlConn.Open();
 
                             //This query is used to check if a student with the same name and surname already exists in the database:
@@ -340,15 +340,15 @@ namespace AdoNetConsoleApplication
                             //if it does not exist:
                             if (!sqlReader51.HasRows)
                             {
+                                query51 = string.Format("Insert into tblStudent Values('{0}','{1}');", student.Name, student.Surname);
+
                                 sqlReader51.Close();
 
-                                string query52 = string.Format("Insert into tblStudent Values('{0}','{1}');", student.Name, student.Surname);
-
-                                SqlCommand sqlCommand52 = new SqlCommand(query52, sqlConn);
-                                sqlCommand52.ExecuteNonQuery();
+                                sqlCommand51 = new SqlCommand(query51, sqlConn);
+                                sqlCommand51.ExecuteNonQuery();
 
                                 Console.WriteLine("***********************************");
-                                Console.WriteLine("The student had successfully added!");
+                                Console.WriteLine("The student has successfully added!");
                                 Console.WriteLine("***********************************");
                             }
                             else
@@ -372,12 +372,11 @@ namespace AdoNetConsoleApplication
 
                     #region 6 Add Subject
                     case "6":
-
-                        Console.WriteLine("Enter the name of the subject:");
-                        subject.NameOfSubject = Console.ReadLine();
-
                         try
                         {
+                            Console.WriteLine("Enter the name of the subject:");
+                            subject.NameOfSubject = Console.ReadLine();
+
                             sqlConn.Open();
 
                             string query61 = string.Format("select * from tblSubject where SubjectName='{0}';", subject.NameOfSubject);
@@ -385,16 +384,19 @@ namespace AdoNetConsoleApplication
                             SqlCommand sqlCommand61 = new SqlCommand(query61, sqlConn);
                             SqlDataReader sqlReader61 = sqlCommand61.ExecuteReader();
 
+                            //if particular subject does not exist:
                             if (!sqlReader61.HasRows)
                             {
+                                query61 = string.Format("Insert into tblSubject Values('{0}');", subject.NameOfSubject);
 
-                                string query62 = string.Format("Insert into tblSubject Values('{0}');", subject.NameOfSubject);
-                                sqlConn.Open();
+                                sqlReader61.Close();
 
-                                SqlCommand sqlCommand62 = new SqlCommand(query62, sqlConn);
-                                sqlCommand62.ExecuteNonQuery();
+                                sqlCommand61 = new SqlCommand(query61, sqlConn);
+                                sqlCommand61.ExecuteNonQuery();
 
+                                Console.WriteLine("***********************************");
                                 Console.WriteLine("The subject has successfully added!");
+                                Console.WriteLine("***********************************");
                                 sqlReader61.Close();
                             }
                             else
@@ -450,24 +452,25 @@ namespace AdoNetConsoleApplication
                                 Console.WriteLine("Please enter new student surname:");
                                 string newSurname = Console.ReadLine();
 
-                                string query72 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", oldName, oldSurname);
+                                query71 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", oldName, oldSurname);
 
-                                SqlCommand sqlCommand72 = new SqlCommand(query72, sqlConn);
-                                SqlDataReader sqlReader72 = sqlCommand72.ExecuteReader();
+                                sqlCommand71 = new SqlCommand(query71, sqlConn);
+                                sqlReader71 = sqlCommand71.ExecuteReader();
 
-                                while (sqlReader72.Read())
+                                while (sqlReader71.Read())
                                 {
-                                    student.StudentID = Convert.ToInt32(sqlReader72["StudentID"]);
+                                    student.StudentID = Convert.ToInt32(sqlReader71["StudentID"]);
                                 }
 
-                                sqlReader72.Close();
+                                sqlReader71.Close();
 
-                                string query73 = string.Format("Update tblStudent set StudentName='{0}', SurName='{1}' where StudentID='{2}';", newName, newSurname, student.StudentID);
-                                SqlCommand sqlCommand73 = new SqlCommand(query73, sqlConn);
-                                sqlCommand73.ExecuteNonQuery();
+                                query71 = string.Format("Update tblStudent set StudentName='{0}', SurName='{1}' where StudentID='{2}';", newName, newSurname, student.StudentID);
+                                sqlCommand71 = new SqlCommand(query71, sqlConn);
+                                sqlCommand71.ExecuteNonQuery();
 
-                                Console.WriteLine();
-                                Console.WriteLine("You are successfully updated student name {0} and surname {1} with {2} and {3}!", oldName, oldSurname, newName, newSurname);
+                                Console.WriteLine("*******************************************************************************");
+                                Console.WriteLine("You are successfully updated student name and surname {0} {1} with {2} {3}!", oldName, oldSurname, newName, newSurname);
+                                Console.WriteLine("*******************************************************************************");
                             }
                         }
                         catch (Exception ex)
@@ -509,24 +512,25 @@ namespace AdoNetConsoleApplication
                                 Console.WriteLine("Please enter new subject name:");
                                 string newNameSubject = Console.ReadLine();
 
-                                string query82 = string.Format("select tblSubject.SubjectID from tblSubject where SubjectName='{0}';", oldNameSubject);
+                                query81 = string.Format("select tblSubject.SubjectID from tblSubject where SubjectName='{0}';", oldNameSubject);
 
-                                SqlCommand sqlCommand82 = new SqlCommand(query82, sqlConn);
-                                SqlDataReader sqlReader82 = sqlCommand82.ExecuteReader();
+                                sqlCommand81 = new SqlCommand(query81, sqlConn);
+                                sqlReader81 = sqlCommand81.ExecuteReader();
 
-                                while (sqlReader82.Read())
+                                while (sqlReader81.Read())
                                 {
-                                    subject.SubjectID = Convert.ToInt32(sqlReader82["SubjectID"]);
+                                    subject.SubjectID = Convert.ToInt32(sqlReader81["SubjectID"]);
                                 }
 
-                                sqlReader82.Close();
+                                sqlReader81.Close();
 
-                                string query83 = string.Format("Update tblSubject set SubjectName='{0}' where SubjectID='{1}';", newNameSubject, subject.SubjectID);
-                                SqlCommand sqlCommand83 = new SqlCommand(query83, sqlConn);
-                                sqlCommand83.ExecuteNonQuery();
+                                query81 = string.Format("Update tblSubject set SubjectName='{0}' where SubjectID='{1}';", newNameSubject, subject.SubjectID);
+                                sqlCommand81 = new SqlCommand(query81, sqlConn);
+                                sqlCommand81.ExecuteNonQuery();
 
-                                Console.WriteLine();
+                                Console.WriteLine("*******************************************************");
                                 Console.WriteLine("You are successfully updated subject name {0} with {1}!", oldNameSubject, newNameSubject);
+                                Console.WriteLine("*******************************************************");
                             }
                         }
                         catch (Exception ex)
@@ -552,42 +556,43 @@ namespace AdoNetConsoleApplication
                         {
                             sqlConn.Open();
 
-                            string query90 = string.Format("select * from tblStudent where StudentName='{0}' and SurName='{1}';", name, surname);
-                            SqlCommand sqlCommand90 = new SqlCommand(query90, sqlConn);
+                            string query91 = string.Format("select * from tblStudent where StudentName='{0}' and SurName='{1}';", name, surname);
+                            SqlCommand sqlCommand91 = new SqlCommand(query91, sqlConn);
 
-                            SqlDataReader sqlReader90 = sqlCommand90.ExecuteReader();
+                            SqlDataReader sqlReader91 = sqlCommand91.ExecuteReader();
 
-                            if (!sqlReader90.HasRows)
+                            if (!sqlReader91.HasRows)
                             {
                                 Console.WriteLine("---------------------------------------------------");
                                 Console.WriteLine("No data for particular student!");
                                 Console.WriteLine("Please repeat procedure!");
                                 Console.WriteLine("---------------------------------------------------");
-                                break;
                             }
                             else
                             {
-                                sqlReader90.Close();
+                                sqlReader91.Close();
 
-                                //string query91 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", name, surname);
-                                //SqlCommand sqlCommand91 = new SqlCommand(query91, sqlConn);
+                                query91 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", name, surname);
+                                sqlCommand91 = new SqlCommand(query91, sqlConn);
 
-                                //SqlDataReader sqlReader91 = sqlCommand91.ExecuteReader();
-                                //while (sqlReader91.Read())
-                                //{
-                                //    studentID = Convert.ToInt32(sqlReader91["StudentID"]);
-                                //}
-                                //sqlReader91.Close();
+                                sqlReader91 = sqlCommand91.ExecuteReader();
+                                while (sqlReader91.Read())
+                                {
+                                    student.StudentID = Convert.ToInt32(sqlReader91["StudentID"]);
+                                }
+                                sqlReader91.Close();
 
-                                //string query92 = string.Format("delete from tblStudent where StudentID='{0}';", studentID);
+                                query91 = string.Format("delete from tblMark where StudentID='{0}';", student.StudentID);
+                                sqlCommand91 = new SqlCommand(query91, sqlConn);
+                                sqlCommand91.ExecuteNonQuery();
 
-                                string query92 = string.Format("delete from tblStudent where StudentName='{0}' and SurName='{1}';", name, surname);
-                                SqlCommand sqlCommand92 = new SqlCommand(query92, sqlConn);
+                                query91 = string.Format("delete from tblStudent where StudentID='{0}';", student.StudentID);
+                                sqlCommand91 = new SqlCommand(query91, sqlConn);
+                                sqlCommand91.ExecuteNonQuery();
 
-                                sqlCommand92.ExecuteNonQuery();
-
-                                Console.WriteLine();
+                                Console.WriteLine("**************************************");
                                 Console.WriteLine("Student {0} {1}, deleted successfully!", name, surname);
+                                Console.WriteLine("**************************************");
                             }
 
                         }
@@ -622,17 +627,26 @@ namespace AdoNetConsoleApplication
                                 Console.WriteLine("No data for particular subject!");
                                 Console.WriteLine("Please repeat procedure!");
                                 Console.WriteLine("---------------------------------------------------");
-                                break;
                             }
                             else
                             {
-                                string query102 = string.Format("delete from tblSubject where SubjectName='{0}';", nameOfSubject);
-                                SqlCommand sqlCommand102 = new SqlCommand(query102, sqlConn);
+                                while (sqlReader101.Read())
+                                {
+                                    subject.SubjectID = Convert.ToInt32(sqlReader101[0]);
+                                }
+                                sqlReader101.Close();
 
-                                sqlCommand102.ExecuteNonQuery();
+                                query101 = string.Format("delete from tblMark where SubjectID='{0}';", subject.SubjectID);
+                                sqlCommand101 = new SqlCommand(query101, sqlConn);
+                                sqlCommand101.ExecuteNonQuery();
 
-                                Console.WriteLine();
+                                query101 = string.Format("delete from tblSubject where SubjectID='{0}';", subject.SubjectID);
+                                sqlCommand101 = new SqlCommand(query101, sqlConn);
+                                sqlCommand101.ExecuteNonQuery();
+
+                                Console.WriteLine("**********************************");
                                 Console.WriteLine("Subject {0}, deleted successfully!", nameOfSubject);
+                                Console.WriteLine("**********************************");
                             }
                         }
                         catch (Exception ex)
