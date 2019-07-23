@@ -331,6 +331,7 @@ namespace AdoNetConsoleApplication
                         {
                             sqlConn.Open();
 
+                            //ovaj upit služi da bi proverili da li u bazi već postoji student sa istim imenom i prezimenom
                             string query51 = string.Format("select * from tblStudent where StudentName='{0}' and SurName='{1}';", student.Name, student.Surname);
 
                             SqlCommand sqlCommand51 = new SqlCommand(query51, sqlConn);
