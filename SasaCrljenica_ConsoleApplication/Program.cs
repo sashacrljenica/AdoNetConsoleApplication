@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace AdoNetConsoleApplication
 {
+    //this is test!
     class Program
     {
         private static string option;
