@@ -16,8 +16,10 @@ namespace AdoNetConsoleApplication
         {
             #region Connection String
 
-            string connString = SasaCrljenica_ConsoleApplication.Properties.Settings.Default.TriTabeleConnectionString;
-            SqlConnection sqlConn = new SqlConnection(connString);
+            //string connString = SasaCrljenica_ConsoleApplication.Properties.Settings.Default.TriTabeleConnectionString;
+            //SqlConnection sqlConn = new SqlConnection(connString);
+
+            SqlConnection sqlConn = new SqlConnection(SasaCrljenica_ConsoleApplication.Connection.ConnectionString.connString);
 
             #endregion
 
