@@ -1,2 +1,2 @@
 # AdoNetConsoleApplication
-This is Console application which use Ado.Net and MSSQL technologies.
+This is C# Console application for exercise which use Ado.Net and MSSQL technologies.
