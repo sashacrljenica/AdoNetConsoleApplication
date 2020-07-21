@@ -28,7 +28,7 @@ namespace AdoNetConsoleApplication
                 Console.WriteLine("-------------------------------------------------------------------");
                 Console.WriteLine("-----------------Select an option----------------------------------");
                 Console.WriteLine("-------------------------------------------------------------------");
-                Console.WriteLine(" 1 - Load Student information");
+                Console.WriteLine(" 1 - Load Student informationn");
                 Console.WriteLine(" 2 - Load name of Subject");
                 Console.WriteLine(" 3 - Load the data of Student that have Mark of ratings\n for a particular Subject");
                 Console.WriteLine(" 4 - Add a Mark grade for a particular student and subject");
