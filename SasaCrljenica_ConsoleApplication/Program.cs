@@ -69,8 +69,8 @@ namespace AdoNetConsoleApplication
                                 Console.WriteLine("-------------------------------------------------------");
                                 while (sqlReader11.Read())
                                 {
-                                    Console.WriteLine(num + ": " + sqlReader11["StudentName"] + " " + sqlReader11["SurName"]);
-                                    //Console.WriteLine(num + ": " + sqlReader11[1] + " " + sqlReader11[2]);
+                                    //Console.WriteLine(num + ": " + sqlReader11["StudentName"] + " " + sqlReader11["SurName"]);
+                                    Console.WriteLine(num + ": " + sqlReader11[1] + " " + sqlReader11[2]);
                                     num++;
                                 }
                                 Console.WriteLine("-------------------------------------------------------");
@@ -447,21 +447,22 @@ namespace AdoNetConsoleApplication
                             }
                             else
                             {
-                                sqlReader71.Close();
+                                //sqlReader71.Close();
 
                                 Console.WriteLine("Please enter new student name:");
                                 string newName = Console.ReadLine();
                                 Console.WriteLine("Please enter new student surname:");
                                 string newSurname = Console.ReadLine();
 
-                                query71 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", oldName, oldSurname);
+                                //query71 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", oldName, oldSurname);
 
-                                sqlCommand71 = new SqlCommand(query71, sqlConn);
-                                sqlReader71 = sqlCommand71.ExecuteReader();
+                                //sqlCommand71 = new SqlCommand(query71, sqlConn);
+                                //sqlReader71 = sqlCommand71.ExecuteReader();
 
                                 while (sqlReader71.Read())
                                 {
-                                    student.StudentID = Convert.ToInt32(sqlReader71["StudentID"]);
+                                    //student.StudentID = Convert.ToInt32(sqlReader71["StudentID"]);
+                                    student.StudentID = Convert.ToInt32(sqlReader71[0]);
                                 }
 
                                 sqlReader71.Close();
@@ -471,7 +472,7 @@ namespace AdoNetConsoleApplication
                                 sqlCommand71.ExecuteNonQuery();
 
                                 Console.WriteLine("*******************************************************************************");
-                                Console.WriteLine("You are successfully updated student name and surname {0} {1} with {2} {3}!", oldName, oldSurname, newName, newSurname);
+                                Console.WriteLine("You are successfully update student name and surname {0} {1} with {2} {3}!", oldName, oldSurname, newName, newSurname);
                                 Console.WriteLine("*******************************************************************************");
                             }
                         }
@@ -494,7 +495,7 @@ namespace AdoNetConsoleApplication
 
                         try
                         {
-                            string query81 = string.Format(" select * from tblSubject where SubjectName='{0}';", oldNameSubject);
+                            string query81 = string.Format("select * from tblSubject where SubjectName='{0}';", oldNameSubject);
 
                             sqlConn.Open();
 
@@ -509,16 +510,9 @@ namespace AdoNetConsoleApplication
                             }
                             else
                             {
-                                sqlReader81.Close();
-
                                 Console.WriteLine("Please enter new subject name:");
                                 string newNameSubject = Console.ReadLine();
-
-                                query81 = string.Format("select tblSubject.SubjectID from tblSubject where SubjectName='{0}';", oldNameSubject);
-
-                                sqlCommand81 = new SqlCommand(query81, sqlConn);
-                                sqlReader81 = sqlCommand81.ExecuteReader();
-
+                               
                                 while (sqlReader81.Read())
                                 {
                                     subject.SubjectID = Convert.ToInt32(sqlReader81["SubjectID"]);
@@ -531,7 +525,7 @@ namespace AdoNetConsoleApplication
                                 sqlCommand81.ExecuteNonQuery();
 
                                 Console.WriteLine("*******************************************************");
-                                Console.WriteLine("You are successfully updated subject name {0} with {1}!", oldNameSubject, newNameSubject);
+                                Console.WriteLine("You are successfully update subject name {0} with {1}!", oldNameSubject, newNameSubject);
                                 Console.WriteLine("*******************************************************");
                             }
                         }
@@ -572,12 +566,6 @@ namespace AdoNetConsoleApplication
                             }
                             else
                             {
-                                sqlReader91.Close();
-
-                                query91 = string.Format("select tblStudent.StudentID from tblStudent where StudentName='{0}' and SurName='{1}';", name, surname);
-                                sqlCommand91 = new SqlCommand(query91, sqlConn);
-
-                                sqlReader91 = sqlCommand91.ExecuteReader();
                                 while (sqlReader91.Read())
                                 {
                                     student.StudentID = Convert.ToInt32(sqlReader91["StudentID"]);
@@ -596,7 +584,6 @@ namespace AdoNetConsoleApplication
                                 Console.WriteLine("Student {0} {1}, deleted successfully!", name, surname);
                                 Console.WriteLine("**************************************");
                             }
-
                         }
                         catch (Exception ex)
                         {
@@ -668,10 +655,7 @@ namespace AdoNetConsoleApplication
                         Console.WriteLine("Wrong option!");
                         break;
                 }
-
             } while (option != "0");
-
-            //Console.ReadLine();
         }
     }
 }
